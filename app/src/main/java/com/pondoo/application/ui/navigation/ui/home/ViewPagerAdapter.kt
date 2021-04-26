@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.pondoo.application.R
+import com.pondoo.application.databinding.ViewpagerLayoutBinding
 import com.pondoo.application.model.Article
 import kotlinx.android.synthetic.main.viewpager_layout.view.*
 import java.text.SimpleDateFormat
@@ -19,18 +20,13 @@ import kotlin.collections.ArrayList
 class ViewPagerAdapter(var context: Context): RecyclerView.Adapter<ViewPagerAdapter.ViewHolder>() {
     var list=ArrayList<Article>()
     var formatPattern = "yyyy-MM-dd'T'HH:mm:ss"
-    class ViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
-        val image= itemView.ViewPager_image
-        val date=itemView.ViewPager_date
-        val title = itemView.ViewPager_newsTitle
-        val content=itemView.ViewPager_newsDetail
+    class ViewHolder(val binding:ViewpagerLayoutBinding): RecyclerView.ViewHolder(binding.root) {
     }
 
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.viewpager_layout,parent,false)
-        return ViewHolder(view)
+        return ViewHolder(ViewpagerLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
     override fun getItemCount(): Int {
@@ -38,12 +34,12 @@ class ViewPagerAdapter(var context: Context): RecyclerView.Adapter<ViewPagerAdap
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Glide.with(context).load(list.get(position).urlToImage).into(holder.image)
-        holder.content.text=list.get(position).description
-        holder.title.text=list.get(position).title
+        Glide.with(context).load(list.get(position).urlToImage).into(holder.binding.ViewPagerImage)
+        holder.binding.ViewPagerNewsDetail.text=list.get(position).description
+        holder.binding.ViewPagerNewsTitle.text=list.get(position).title
         var formattedTime=setTime(list.get(position).publishedAt)
-        holder.date.text=formattedTime
-        holder.title.setOnClickListener(View.OnClickListener {
+        holder.binding.ViewPagerDate.text=formattedTime
+        holder.binding.ViewPagerNewsTitle.setOnClickListener(View.OnClickListener {
             val i = Intent(Intent.ACTION_VIEW, Uri.parse(list.get(position).url))
             context.startActivity(i)
         })

@@ -3,16 +3,21 @@ package com.pondoo.application.ui.navigation.ui.home
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pondoo.application.R
 import com.pondoo.application.databinding.FragmentHomeBinding
 import com.pondoo.application.model.Article
+import com.pondoo.application.ui.navigation.ui.settings.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment()  {
@@ -88,7 +93,21 @@ class HomeFragment : Fragment()  {
 
         }
         )
-
-
     }
+    private val mOnNavigationItemSelectedListener: BottomNavigationView.OnNavigationItemSelectedListener =
+        object : BottomNavigationView.OnNavigationItemSelectedListener {
+            override fun onNavigationItemSelected(item: MenuItem): Boolean {
+                when (item.getItemId()) {
+                    R.id.navigation_settings -> {
+                        val fragmentManager: FragmentManager = childFragmentManager
+
+                        fragmentManager.beginTransaction()
+                            .replace(R.id.nav_host_fragment_container, SettingsFragment()).addToBackStack("first").commit()
+                        return true
+                    }
+                    R.id.navigation_home -> return true
+                }
+                return false
+            }
+        }
 }
