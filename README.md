@@ -24,11 +24,6 @@ The design adopted follows the MVVM with clean architecture design patterns.
 10. Glide
 11. Moshi
 
-
-# UML
-
-![UML](/images/png.png)
-
 # Screenshots
 ![ss0](/images/ss0.jpg)
 ![ss1](/images/ss1.jpg)
